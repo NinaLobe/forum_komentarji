@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ topic.title }}{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ topic.title }}</h3>
+            </div>
+
+            <div class="panel-body">
+                <p><strong>Author: </strong>{{ topic.author_email }}</p>
+
+                <p>{{ topic.content }}</p>
+
+
+
+            </div>
+
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Avtor</th>
+                    <th>Ustvarjen</th>
+                    <th>Komentar</th>
+                </tr>
+            </thead>
+                 <tbody>
+                   {%for comment in comments %}
+                      {%if topic.key.id()==comment.topic_id %}
+                         <tr>
+                             <td>{{comment.author_email}} {{comment.topic_id}}</td>
+                             <td>{{comment.created.strftime('%d.%m.%Y at %H:%M') }}</td>
+                             <td>{{comment.content}}</td>
+                         </tr>
+                      {%endif %}
+                   {% endfor %}
+
+
+                </tbody>
+                </table>
+
+
+
+
+        <form action="/topic/{{topic.key.id()}}/comment/add" method="post">
+
+          <label>Komentar:</label>
+          <textarea name="comment-text" class="form-control" rows="4"></textarea>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+
+
+
+    </div>
+</div>
+{% endblock content %}
